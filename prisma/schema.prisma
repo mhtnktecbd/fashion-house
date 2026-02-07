@@ -6,9 +6,31 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model ShippingRule {
+  id                  String   @id @default(uuid())
+  name                String   @unique @default("default")
+  enabled             Boolean  @default(true)
+  codEnabled          Boolean  @default(true)
+  
+  insideDhakaFee      Float    @default(70)
+  insideDhakaActive   Boolean  @default(true)
+  insideDhakaFree     Boolean  @default(false)
+  insideDhakaMin      Float    @default(0)
+  
+  outsideDhakaFee     Float    @default(130)
+  outsideDhakaActive  Boolean  @default(true)
+  outsideDhakaFree    Boolean  @default(false)
+  outsideDhakaMin     Float    @default(0)
+
+  updatedAt           DateTime @updatedAt
+  createdAt           DateTime @default(now())
+}
+
+
 
 model User {
   id        String   @id @default(uuid())
@@ -196,4 +218,32 @@ model Category {
   
   createdAt       DateTime   @default(now())
   updatedAt       DateTime   @updatedAt
+}
+
+model TrustBadge {
+  id        Int      @id @default(autoincrement())
+  icon      String
+  text      String
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model HomeSection {
+  id          String   @id @default(uuid())
+  type        String
+  title       String
+  subtitle    String?
+  enabled     Boolean  @default(true)
+  order       Int      @default(0)
+  viewAllLink String?
+  mode        String?
+  limit       Int?
+  endsAt      DateTime?
+  hideWhenEnded Boolean @default(false)
+  
+  items       String? // JSON string
+  
+  updatedAt   DateTime @updatedAt
+  createdAt   DateTime @default(now())
 }

@@ -5,6 +5,9 @@
   "scripts": {
     "dev": "next dev",
     "build": "prisma generate && next build",
+    "postinstall": "prisma generate",
+    "db:push": "prisma db push",
+    "db:seed": "node prisma/seed.js",
     "start": "next start",
     "lint": "eslint"
   },
@@ -24,5 +27,8 @@
   "devDependencies": {
     "eslint": "^9",
     "eslint-config-next": "16.1.6"
+  },
+  "prisma": {
+    "seed": "node prisma/seed.js"
   }
 }

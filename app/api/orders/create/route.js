@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
-import { getCoupons, getProductOverrides, saveProductOverrides } from '@/lib/demoStore';
+import { getCoupons } from '@/lib/demoStore';
 
 export async function POST(req) {
     try {
@@ -24,40 +24,30 @@ export async function POST(req) {
         }
 
         // Verify products exist and Calculate Subtotal Server-Side
-        const productIds = cart.map((item) => item.productId); // Use productId
+        const productIds = cart.map((item) => item.productId);
         const existingProducts = await prisma.product.findMany({
             where: { id: { in: productIds } },
-            select: { id: true, slug: true, price: true, sizes: true, title: true } // Select slug for overrides
+            include: { variants: true } // Fetch variants for stock check
         });
 
-        // Get Overrides (for Stock)
-        const overrides = await getProductOverrides();
-
-        const productMap = new Map(existingProducts.map(p => {
-            // Merge with override
-            const override = overrides[p.slug] || {};
-            return [p.id, { ...p, ...override }];
-        }));
-
+        const productMap = new Map(existingProducts.map(p => [p.id, p]));
         const validItems = [];
-        const stockUpdates = {}; // slug -> { variantStock }
+
+        // Stock updates to apply later
+        // Map<productId, { variantUpdates: Map<string, number>, sizeUpdates: Map<string, number>, productUpdate: number }>
+        // Actually, simpler to just track what to decrement.
+        // We will do decrement inside transaction.
 
         for (const item of cart) {
             const product = productMap.get(item.productId);
 
             // Strict Mode: Filter out missing items
             if (product) {
-                // --- Size Validation ---
-                const hasSizes = product.sizes && product.sizes !== '[]' && product.sizes !== 'null';
-                // Note: product.sizes might be array or object from override, need to parse if string
-                // But generally overrides store it as array/object in memory if loaded from JSON? 
-                // Wait, demoStore returns parsed JSON.
-
+                // Parse sizes if string
                 let productSizes = product.sizes;
                 if (typeof productSizes === 'string') {
                     try { productSizes = JSON.parse(productSizes); } catch (e) { }
                 }
-                // Convert object {S:10} to keys if needed, or check length if array
                 const hasSizeList = Array.isArray(productSizes) ? productSizes.length > 0 : (productSizes && Object.keys(productSizes).length > 0);
 
                 if (hasSizeList) {
@@ -68,73 +58,33 @@ export async function POST(req) {
                     }
                 }
 
-                // --- Stock Validation & Reservation ---
-                // Parse variantStock
-                let variantStock = {};
-                if (product.variantStock) {
-                    if (typeof product.variantStock === 'string') {
-                        try { variantStock = JSON.parse(product.variantStock); } catch (e) { }
-                    } else {
-                        variantStock = product.variantStock;
-                    }
-                }
-
-                // Parse sizeStock (fallback)
-                let sizeStock = {};
-                if (product.sizeStock) {
-                    if (typeof product.sizeStock === 'string') {
-                        try { sizeStock = JSON.parse(product.sizeStock); } catch (e) { }
-                    } else {
-                        sizeStock = product.sizeStock;
-                    }
-                }
-
-                // Identify requested variant
+                // --- Stock Validation ---
                 const requestedSize = item.size || "FREE";
                 const requestedColor = item.color || "Default";
 
-                // Check Variant Stock First
-                const variantKey = `${requestedSize}:${requestedColor}`;
+                // Check Variant Stock
+                const variant = product.variants.find(v =>
+                    (v.size === requestedSize || (!v.size && requestedSize === "FREE")) &&
+                    (v.color === requestedColor || (!v.color && requestedColor === "Default"))
+                );
 
-                // Only check strict variant stock if the map has keys
-                if (Object.keys(variantStock).length > 0) {
-                    const currentStock = variantStock[variantKey];
-                    if (currentStock === undefined) {
-                        // Variant doesn't exist? Allow or Block?
-                        // If strict mode, block. But if new color added without stock, maybe 0?
-                        // Let's assume 0 if undefined but other variants exist.
-                        if (Object.keys(variantStock).length > 0) {
-                            return NextResponse.json({ error: `Variant ${item.title} (${requestedSize} / ${requestedColor}) is unavailable.` }, { status: 400 });
-                        }
-                    } else if (currentStock < item.quantity) {
-                        return NextResponse.json({ error: `Insufficient stock for ${item.title} (${requestedSize} / ${requestedColor}). Only ${currentStock} left.` }, { status: 400 });
+                if (variant) {
+                    if (variant.stock < item.quantity) {
+                        return NextResponse.json({ error: `Insufficient stock for ${item.title} (${requestedSize} / ${requestedColor}). Only ${variant.stock} left.` }, { status: 400 });
                     }
-
-                    // Reserve/Decrement
-                    variantStock[variantKey] -= item.quantity;
-                    // Prepare update
-                    if (!stockUpdates[product.slug]) stockUpdates[product.slug] = {};
-                    stockUpdates[product.slug].variantStock = variantStock;
-                }
-                // Fallback: Check Size Stock
-                else if (sizeStock[requestedSize] !== undefined) {
-                    if (sizeStock[requestedSize] < item.quantity) {
-                        return NextResponse.json({ error: `Insufficient stock for ${item.title} (${requestedSize}). Only ${sizeStock[requestedSize]} left.` }, { status: 400 });
+                } else {
+                    // If no specific variant found, check main product stock
+                    if (product.stock < item.quantity) {
+                        return NextResponse.json({ error: `Insufficient stock for ${item.title}. Only ${product.stock} left.` }, { status: 400 });
                     }
-                    sizeStock[requestedSize] -= item.quantity;
-                    if (!stockUpdates[product.slug]) stockUpdates[product.slug] = {};
-                    stockUpdates[product.slug].sizes = sizeStock; // Legacy naming might be sizes or sizeStock? ProductForm saves 'sizes' as array and 'sizeStock' as object.
-                    // Wait, ProductForm: sizeStock: JSON.stringify(sizeStock).
-                    // So we update sizeStock.
-                    stockUpdates[product.slug].sizeStock = sizeStock;
                 }
 
                 validItems.push({
                     ...item,
-                    price: item.price,
+                    price: product.price, // Use server price
                     productId: product.id
                 });
-                subtotal += (item.price * item.quantity);
+                subtotal += (product.price * item.quantity);
             }
             // Demo Mode Fallback
             else if (isDemoMode && fallbackProduct) {
@@ -175,10 +125,14 @@ export async function POST(req) {
         }
 
         // Calculate Final Total
-        const shippingCost = zone === 'dhaka' ? 70 : 130;
+        // Fetch shipping rules
+        const shippingRule = await prisma.shippingRule.findFirst({ where: { name: 'default' } });
+        const dhakaFee = shippingRule?.insideDhakaFee ?? 70;
+        const outsideFee = shippingRule?.outsideDhakaFee ?? 130;
+
+        const shippingCost = zone === 'dhaka' ? dhakaFee : outsideFee;
         const calculatedTotal = (subtotal - discountAmount) + shippingCost;
         const finalTotal = calculatedTotal < 0 ? 0 : calculatedTotal;
-
 
         // Create order transaction
         const order = await prisma.$transaction(async (tx) => {
@@ -212,27 +166,37 @@ export async function POST(req) {
                     }
                 }
             });
-            return newOrder;
-        });
 
-        // --- Commit Stock Updates ---
-        // If order creation succeeded, save the decremented stock
-        // Note: There is a race condition here (file-based db), but acceptable for demo.
-        if (Object.keys(stockUpdates).length > 0) {
-            // Re-fetch overrides to be safe? Or just apply what we have?
-            // "stockUpdates" contains parsed objects. We need to stringify them for storage.
-            // Wait, demoStore.js handles the file read/write.
-            // saveProductOverrides expects the full object? No, we have getProductOverrides.
-            // Let's modify the 'overrides' object we fetched earlier and save it back.
+            // Decrement Stock
+            for (const item of validItems) {
+                const requestedSize = item.size || "FREE";
+                const requestedColor = item.color || "Default";
 
-            for (const [slug, updates] of Object.entries(stockUpdates)) {
-                if (!overrides[slug]) overrides[slug] = {};
-                if (updates.variantStock) overrides[slug].variantStock = JSON.stringify(updates.variantStock);
-                if (updates.sizeStock) overrides[slug].sizeStock = JSON.stringify(updates.sizeStock);
+                // Try to find variant to decrement
+                const variant = await tx.productVariant.findFirst({
+                    where: {
+                        productId: item.productId,
+                        size: requestedSize,
+                        color: requestedColor
+                    }
+                });
+
+                if (variant) {
+                    await tx.productVariant.update({
+                        where: { id: variant.id },
+                        data: { stock: { decrement: item.quantity } }
+                    });
+                } else {
+                    // Decrement main product stock
+                    await tx.product.update({
+                        where: { id: item.productId },
+                        data: { stock: { decrement: item.quantity } }
+                    });
+                }
             }
 
-            await saveProductOverrides(overrides);
-        }
+            return newOrder;
+        });
 
         console.log("Order created successfully:", order.id, order.orderNumber);
 

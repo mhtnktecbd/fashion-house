@@ -1,40 +1,46 @@
 import { NextResponse } from 'next/server';
-import { getReviews, saveReviews } from '@/lib/demoStore';
+import { prisma } from '@/lib/prisma';
 
 export async function GET() {
-    const reviews = await getReviews();
-    // Return all reviews sorted by date desc
-    return NextResponse.json(reviews.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)));
+    try {
+        const reviews = await prisma.review.findMany({
+            orderBy: { createdAt: 'desc' }
+        });
+        return NextResponse.json(reviews);
+    } catch (error) {
+        console.error("GET Reviews Error:", error);
+        return NextResponse.json({ error: 'Failed to fetch reviews' }, { status: 500 });
+    }
 }
 
 export async function PATCH(request) {
     try {
         const { id, status, adminNote } = await request.json();
-        const reviews = await getReviews();
 
-        const updatedReviews = reviews.map(r =>
-            r.id === id ? { ...r, status, adminNote: adminNote ?? r.adminNote } : r
-        );
+        await prisma.review.update({
+            where: { id },
+            data: { status, adminNote }
+        });
 
-        await saveReviews(updatedReviews);
         return NextResponse.json({ success: true });
     } catch (error) {
-        return NextResponse.json({ error: 'Failed' }, { status: 500 });
+        console.error("PATCH Review Error:", error);
+        return NextResponse.json({ error: 'Failed to update review' }, { status: 500 });
     }
 }
 
 export async function DELETE(request) {
     try {
-        const { id } = await request.json(); // Or search params
-        // Check if id is passed in body or query? Let's generic to body for simple implementation
+        const { id } = await request.json();
         if (!id) return NextResponse.json({ error: 'ID required' }, { status: 400 });
 
-        const reviews = await getReviews();
-        const updatedReviews = reviews.filter(r => r.id !== id);
+        await prisma.review.delete({
+            where: { id }
+        });
 
-        await saveReviews(updatedReviews);
         return NextResponse.json({ success: true });
     } catch (error) {
-        return NextResponse.json({ error: 'Failed' }, { status: 500 });
+        console.error("DELETE Review Error:", error);
+        return NextResponse.json({ error: 'Failed to delete review' }, { status: 500 });
     }
 }
