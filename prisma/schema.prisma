@@ -1,0 +1,199 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(uuid())
+  name      String?
+  email     String?  @unique
+  password  String? // Nullable for OAuth users
+  role      String   @default("USER") // ADMIN, USER
+  phone     String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  orders    Order[]
+  accounts  Account[]
+}
+
+model Account {
+  id                 String  @id @default(cuid())
+  userId             String
+  type               String
+  provider           String
+  providerAccountId  String
+  refresh_token      String?
+  access_token       String?
+  expires_at         Int?
+  token_type         String?
+  scope              String?
+  id_token           String?
+  session_state      String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Product {
+  id          String      @id @default(uuid())
+  title       String
+  slug        String      @unique
+  price       Float
+  description String?
+  category    String // Men, Women, Kids
+  images      String // JSON string of image URLs
+  stock       Int         @default(0)
+  isNew       Boolean     @default(false)
+  isBestSeller Boolean    @default(false)
+  isOnSale    Boolean     @default(false)
+  
+  // Fabrilife-style enhancements
+  sizes       String? // JSON array: ["M","L","XL"]
+  sizeStock   String? // JSON object: {"M":10,"L":5,"XL":0}
+  returnInfo  String? // JSON object: {title, bullets, note}
+  sizeChart   String? // JSON object: {enabled, defaultUnit, columns, rows}
+  
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+  orderItems  OrderItem[]
+  variants    ProductVariant[]
+}
+
+model ProductVariant {
+  id        String   @id @default(uuid())
+  productId String
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  size      String?
+  color     String?
+  stock     Int      @default(0)
+  sku       String?
+}
+
+model Order {
+  id            String      @id @default(uuid())
+  orderNumber   Int         @unique
+  userId        String?
+  user          User?       @relation(fields: [userId], references: [id])
+  guestPhone    String?
+  guestName     String?
+  guestAddress  String?
+  
+  totalAmount   Float
+  status        String      @default("PENDING") // PENDING, PROCESSING, SHIPPED, DELIVERED, CANCELLED
+  paymentMethod String      // COD, BKASH, NAGAD, CARD
+  paymentStatus String      @default("UNPAID")
+  
+  items         OrderItem[]
+  returnRequest ReturnRequest?
+  
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+}
+
+model OrderItem {
+  id        String  @id @default(uuid())
+  orderId   String
+  order     Order   @relation(fields: [orderId], references: [id])
+  productId String
+  product   Product @relation(fields: [productId], references: [id])
+  quantity  Int
+  price     Float   // Snapshot of price at time of order
+  title     String  // Snapshot of product title
+  size      String? // Size selected (if applicable)
+  color     String? // Color selected (if applicable)
+}
+
+model FeatureFlag {
+  key         String  @id @unique
+  enabled     Boolean @default(true)
+  description String?
+}
+
+model Lead {
+  id        String   @id @default(uuid())
+  phone     String   @unique
+  name      String?
+  address   String?
+  status    String   @default("NEW") // NEW, CONTACTED, CONVERTED, IGNORED, BLACKLISTED
+  createdAt DateTime @default(now())
+}
+
+model ReturnRequest {
+  id        String   @id @default(uuid())
+  orderId   String   @unique
+  order     Order    @relation(fields: [orderId], references: [id])
+  reason    String
+  status    String   @default("REQUESTED") // REQUESTED, APPROVED, PICKED, REFUNDED, CLOSED
+  createdAt DateTime @default(now())
+}
+
+model HeroBanner {
+  id              Int     @id @default(autoincrement())
+  isActive        Boolean @default(true)
+  eyebrowText     String? 
+  title           String  @default("")
+  subtitle        String?
+  backgroundImage String?
+  buttonText      String?
+  buttonLink      String?
+  updatedAt       DateTime @updatedAt
+  createdAt       DateTime @default(now())
+}
+
+model SideBanner {
+  id        Int     @id @default(autoincrement())
+  title     String  @default("")
+  image     String?
+  link      String?
+  isActive  Boolean @default(true)
+  order     Int     @default(0)
+  updatedAt DateTime @updatedAt
+  createdAt DateTime @default(now())
+}
+
+model Review {
+  id          String   @id @default(uuid())
+  productSlug String
+  rating      Int
+  name        String
+  email       String?
+  title       String?
+  comment     String
+  status      String   @default("PENDING") // PENDING, APPROVED, REJECTED, HIDDEN
+  adminNote   String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Category {
+  id              String     @id @default(uuid())
+  name            String
+  slug            String     @unique
+  isActive        Boolean    @default(true)
+  showInNavbar    Boolean    @default(false)
+  showInHome      Boolean    @default(false)
+  sortNavbar      Int        @default(0)
+  sortHome        Int        @default(0)
+  homeLabel       String?
+  homeIcon        String?
+  sortOrder       Int        @default(0) // Deprecated: keeping for safety until migration complete
+  image           String?
+  tileImage       String?
+  showOnHomeTiles Boolean    @default(false)
+  tileOrder       Int        @default(0)
+  
+  parentId        String?
+  parent          Category?  @relation("SubCategories", fields: [parentId], references: [id])
+  subCategories   Category[] @relation("SubCategories")
+  
+  createdAt       DateTime   @default(now())
+  updatedAt       DateTime   @updatedAt
+}

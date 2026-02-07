@@ -1,0 +1,178 @@
+{
+  "coupons": [
+    {
+      "id": "default-1",
+      "code": "WELCOME10",
+      "type": "PERCENT",
+      "value": 10,
+      "minOrder": 500,
+      "maxUses": 1000,
+      "usedCount": 0,
+      "active": true
+    },
+    {
+      "id": "default-2",
+      "code": "FLAT50",
+      "type": "FIXED",
+      "value": 50,
+      "minOrder": 1000,
+      "maxUses": 500,
+      "usedCount": 0,
+      "active": true
+    },
+    {
+      "id": "default-3",
+      "code": "FREESHIP",
+      "type": "FIXED",
+      "value": 70,
+      "minOrder": 2000,
+      "usedCount": 0,
+      "active": true
+    }
+  ],
+  "shippingRules": {
+    "enabled": true,
+    "codEnabled": true,
+    "insideDhaka": {
+      "enabled": true,
+      "fee": 70,
+      "freeShippingEnabled": false,
+      "freeShippingMin": 0
+    },
+    "outsideDhaka": {
+      "enabled": true,
+      "fee": 130,
+      "freeShippingEnabled": false,
+      "freeShippingMin": 0
+    }
+  },
+  "orderMeta": {
+    "e355920c-59d4-413a-86ea-7ad0b0a8c241": {
+      "timeline": [
+        {
+          "status": "PROCESSING",
+          "timestamp": "2026-02-05T11:09:02.438Z",
+          "note": "Status updated to PROCESSING by admin"
+        },
+        {
+          "status": "DELIVERED",
+          "timestamp": "2026-02-05T11:09:03.872Z",
+          "note": "Status updated to DELIVERED by admin"
+        }
+      ]
+    },
+    "2dcf1415-d324-4d9d-81b6-ef8569c90daf": {
+      "timeline": [
+        {
+          "status": "CANCELLED",
+          "timestamp": "2026-02-05T19:34:24.233Z",
+          "note": "Status updated to CANCELLED by admin"
+        }
+      ]
+    },
+    "826c480d-b01e-44ab-87f2-3470e929cef6": {
+      "timeline": [
+        {
+          "status": "CANCELLED",
+          "timestamp": "2026-02-05T19:34:24.939Z",
+          "note": "Status updated to CANCELLED by admin"
+        }
+      ]
+    }
+  },
+  "homeSections": [
+    {
+      "id": "sec_collections",
+      "type": "category_grid",
+      "title": "All Collections",
+      "subtitle": "Explore our latest fashion categories",
+      "enabled": true,
+      "order": 10,
+      "viewAllLink": "/shop",
+      "items": [
+        {
+          "id": "1",
+          "title": "Men",
+          "slug": "men",
+          "image": "/images/cat_men.jpg"
+        },
+        {
+          "id": "2",
+          "title": "Women",
+          "slug": "women",
+          "image": "/images/cat_women.jpg"
+        },
+        {
+          "id": "3",
+          "title": "Kids",
+          "slug": "kids",
+          "image": "/images/cat_kids.jpg"
+        },
+        {
+          "id": "4",
+          "title": "Sports",
+          "slug": "sports",
+          "image": "/images/cat_sports.jpg"
+        }
+      ]
+    },
+    {
+      "id": "sec_new_arrivals",
+      "type": "product_grid",
+      "title": "New Arrivals",
+      "subtitle": "Fresh looks just for you",
+      "enabled": true,
+      "order": 20,
+      "viewAllLink": "/shop?sort=newest",
+      "mode": "newest",
+      "limit": 8
+    },
+    {
+      "id": "sec_flash_sale",
+      "type": "flash_sale",
+      "title": "Flash Sale",
+      "subtitle": "Limited time offers",
+      "enabled": true,
+      "order": 30,
+      "endsAt": "2026-02-06T18:37:56.234Z",
+      "hideWhenEnded": true,
+      "mode": "featured",
+      "limit": 4
+    }
+  ],
+  "productOverrides": {},
+  "heroTrustRowEnabled": true,
+  "homeReviewsEnabled": true,
+  "sizeGuide": {
+    "enabled": true,
+    "title": "Size Guide",
+    "content": "## Standard Sizing\n\n| Size | Chest | Waist |\n|------|-------|-------|\n| S    | 34-36 | 28-30 |\n| M    | 38-40 | 32-34 |\n| L    | 42-44 | 36-38 |",
+    "imageUrl": ""
+  },
+  "trustBadges": {
+    "enabled": true,
+    "items": [
+      {
+        "id": 1,
+        "icon": "ShieldCheck",
+        "text": "100% Authentic"
+      },
+      {
+        "id": 2,
+        "icon": "Truck",
+        "text": "Fast Delivery"
+      },
+      {
+        "id": 3,
+        "icon": "RotateCcw",
+        "text": "Easy Returns"
+      },
+      {
+        "id": 4,
+        "icon": "Award",
+        "text": "Premium Quality"
+      }
+    ]
+  },
+  "reviews": []
+}

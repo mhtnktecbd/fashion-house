@@ -1,0 +1,467 @@
+.navbar {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background: #ffffff;
+    border-bottom: 1px solid transparent;
+    box-shadow: none;
+    height: 84px;
+    display: flex;
+    align-items: center;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.scrolled {
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+}
+
+.inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 24px;
+    gap: 24px;
+    /* Reduced gap to prevent overflow */
+}
+
+/* Logo */
+.logo {
+    font-size: 26px;
+    font-weight: 800;
+    letter-spacing: -1px;
+    color: #000;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+/* Center Menu */
+.center {
+    display: flex;
+    gap: 32px;
+    align-items: center;
+}
+
+.navLink {
+    text-decoration: none;
+    color: #333;
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    transition: color 0.2s;
+    position: relative;
+}
+
+.navLink:hover {
+    color: #000;
+}
+
+.navLink::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: #000;
+    transition: width 0.3s;
+}
+
+.navLink:hover::after {
+    width: 100%;
+}
+
+/* Search Box */
+.searchContainer {
+    flex-grow: 1;
+    max-width: 300px;
+    display: none;
+    position: relative;
+    z-index: 1050;
+    /* Ensure search container is above other elements */
+}
+
+@media (min-width: 768px) {
+    .searchContainer {
+        display: block;
+    }
+}
+
+.searchBox {
+    position: relative;
+    width: 100%;
+    z-index: 5;
+}
+
+.searchInput {
+    width: 100%;
+    padding: 10px 16px 10px 40px;
+    border-radius: 50px;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    background: rgba(0, 0, 0, 0.03);
+    font-size: 13px;
+    outline: none;
+    transition: all 0.2s;
+}
+
+.searchInput:focus {
+    background: #fff;
+    border-color: #000;
+    box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.05);
+}
+
+.searchIcon {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #888;
+    cursor: pointer;
+    /* Make it look clickable */
+    pointer-events: auto;
+    /* Allow clicking */
+    z-index: 10;
+    background: none;
+    border: none;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 0.2s;
+}
+
+.searchIcon:hover {
+    color: #000;
+}
+
+/* Right Icons */
+.right {
+    display: flex;
+    gap: 24px;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.iconItem {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    color: #333;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.2s;
+    padding: 8px 12px;
+    border-radius: 8px;
+    border: 1px solid transparent;
+}
+
+.iconItem:hover {
+    color: #000;
+    transform: translateY(-2px);
+    background: rgba(0, 0, 0, 0.04);
+    border-color: rgba(0, 0, 0, 0.1);
+}
+
+.iconLabel {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    display: none;
+}
+
+@media (min-width: 1024px) {
+    .iconLabel {
+        display: block;
+    }
+}
+
+.iconWrapper {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+}
+
+.badge {
+    position: absolute;
+    top: -6px;
+    right: -8px;
+    min-width: 18px;
+    height: 18px;
+    border-radius: 999px;
+    background: #000;
+    color: #fff;
+    font-size: 11px;
+    font-weight: 700;
+    line-height: 18px;
+    text-align: center;
+    z-index: 5;
+    padding: 0 4px;
+    /* Ensure 2 digits fit */
+    display: flex;
+    /* Centering backup */
+    align-items: center;
+    justify-content: center;
+}
+
+/* Mobile Toggle */
+.mobileToggle {
+    display: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    color: #000;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 1024px) {
+    .inner {
+        padding: 0 16px;
+        gap: 20px;
+    }
+
+    .center {
+        display: none;
+        /* Hide menu desktop style */
+    }
+
+    .mobileToggle {
+        display: block;
+    }
+
+    /* Mobile Menu Drawer Style (Simple implementation) */
+    .mobileMenuOpen {
+        display: flex;
+        flex-direction: column;
+        position: absolute;
+        top: 72px;
+        left: 0;
+        width: 100%;
+        background: #fff;
+        padding: 24px;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        z-index: 999;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    }
+
+    .mobileMenuOpen .navLink {
+        font-size: 16px;
+        padding: 12px 0;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        width: 100%;
+    }
+
+    .searchContainer {
+        display: none;
+        /* Hide search on intermediate sizes if needed, or keep */
+    }
+}
+
+@media (max-width: 768px) {
+    .navbar {
+        height: 60px;
+    }
+
+    .logo {
+        font-size: 20px;
+    }
+
+    .right {
+        gap: 16px;
+    }
+
+    .iconLabel {
+        display: none;
+        /* Hide labels on mobile */
+    }
+
+    .mobileMenuOpen {
+        top: 60px;
+    }
+}
+
+/* Dropdown Menu */
+.navItemWrapper {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%) translateY(10px);
+    background: #fff;
+    min-width: 200px;
+    padding: 10px 0;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    z-index: 1100;
+}
+
+.navItemWrapper:hover .dropdown {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(0);
+}
+
+.dropdownLink {
+    display: block;
+    padding: 10px 20px;
+    color: #333;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 500;
+    transition: background 0.2s;
+    text-align: left;
+}
+
+.dropdownLink:hover {
+    background: rgba(0, 0, 0, 0.03);
+    color: var(--accent);
+}
+
+/* Smart Search Results */
+.searchResults {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.12);
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    margin-top: 8px;
+    overflow: hidden;
+    z-index: 1200;
+    animation: slideDown 0.2s ease-out;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.searchLoading,
+.noResults {
+    padding: 20px;
+    text-align: center;
+    color: #888;
+    font-size: 13px;
+}
+
+.resultGroup {
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+}
+
+.resultGroup:last-child {
+    border-bottom: none;
+}
+
+.groupTitle {
+    padding: 8px 16px;
+    font-size: 11px;
+    font-weight: 700;
+    color: #aaa;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.resultItem {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 16px;
+    color: #333;
+    text-decoration: none;
+    font-size: 14px;
+    transition: background 0.2s;
+}
+
+.resultItem:hover {
+    background: rgba(0, 0, 0, 0.03);
+    color: #000;
+}
+
+.resultIcon {
+    color: #ccc;
+}
+
+.resultProduct {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 16px;
+    text-decoration: none;
+    color: #333;
+    transition: background 0.2s;
+}
+
+.resultProduct:hover {
+    background: rgba(0, 0, 0, 0.03);
+}
+
+.thumb {
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
+    overflow: hidden;
+    background: #f0f0f0;
+    flex-shrink: 0;
+}
+
+.prodInfo {
+    display: flex;
+    flex-direction: column;
+}
+
+.prodTitle {
+    font-size: 13px;
+    font-weight: 600;
+    color: #333;
+    line-height: 1.2;
+}
+
+.prodPrice {
+    font-size: 12px;
+    color: #666;
+    margin-top: 2px;
+}
+
+/* Mobile Utilities */
+.mobileHide {
+    display: none;
+}
+
+@media (min-width: 1024px) {
+    .mobileHide {
+        display: inline-block;
+        font-size: 12px;
+    }
+
+    .iconItem {
+        flex-direction: row;
+        gap: 8px;
+    }
+}

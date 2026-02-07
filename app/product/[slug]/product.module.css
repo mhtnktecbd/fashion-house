@@ -1,0 +1,215 @@
+.grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 30px;
+    padding: 30px 0;
+}
+
+@media (min-width: 768px) {
+    .grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 60px;
+    }
+}
+
+.imageWrapper {
+    border: 2px solid #000;
+    border-radius: 12px;
+    padding: 12px;
+    aspect-ratio: 4 / 5;
+    background: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.mainImage {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 6px;
+    background: #f0f0f0;
+}
+
+.title {
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 12px;
+}
+
+.price {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 24px;
+}
+
+.section {
+    margin-bottom: 24px;
+}
+
+.label {
+    font-size: 13px;
+    font-weight: 600;
+    display: block;
+    margin-bottom: 8px;
+}
+
+.sizes {
+    display: flex;
+    gap: 8px;
+}
+
+.sizeBtn {
+    width: 40px;
+    height: 40px;
+    border: 1px solid var(--border);
+    background: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.sizeBtn:hover {
+    border-color: var(--primary);
+}
+
+.sizeBtnActive {
+    border-color: var(--primary);
+    background: var(--primary);
+    color: white;
+}
+
+.sizeBtnDisabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+    background: #f5f5f5;
+}
+
+.sizeBtnDisabled:hover {
+    border-color: var(--border);
+}
+
+.helperText {
+    margin: 8px 0 0 0;
+    font-size: 12px;
+    color: var(--secondary);
+}
+
+.actionRow {
+    display: flex;
+    gap: 12px;
+    width: 100%;
+}
+
+.actions {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 24px;
+}
+
+.description {
+    color: var(--secondary);
+    line-height: 1.6;
+    font-size: 14px;
+    margin-bottom: 24px;
+}
+
+.policy {
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid #eee;
+    font-size: 14px;
+    color: #555;
+    line-height: 1.6;
+}
+
+/* Size Guide & Option Row */
+.optionGroup {
+    margin-bottom: 24px;
+}
+
+.labelRow {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.optionLabel {
+    font-size: 14px;
+    font-weight: 600;
+    color: #333;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.colorBtn {
+    padding: 6px 14px;
+    border-radius: 20px;
+    border: 1px solid #ddd;
+    background: #fff;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.colorBtn:hover {
+    border-color: #000;
+}
+
+.colorBtnActive {
+    border: 2px solid #000;
+    background: #fff;
+    font-weight: 600;
+}
+
+.colorBtn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    background: #f5f5f5;
+    border-color: #eee;
+}
+
+.sizeGuideBtn {
+    background: none;
+    border: none;
+    color: #666;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+    text-decoration: underline;
+    transition: color 0.2s;
+    padding: 0;
+}
+
+.sizeGuideBtn:hover {
+    color: #000;
+}
+
+.wishlistBtn {
+    width: 48px;
+    height: 48px;
+    /* Match standard button height if possible, or adjust to fit */
+    border: 1px solid var(--border);
+    background: white;
+    border-radius: 4px;
+    /* Match button border radius */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    color: #333;
+    flex-shrink: 0;
+}
+
+.wishlistBtn:hover {
+    border-color: #e91e63;
+    color: #e91e63;
+    background: #fffcfd;
+}

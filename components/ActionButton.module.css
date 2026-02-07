@@ -1,0 +1,52 @@
+/* ActionButton.module.css */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 48px;
+    /* h-12 */
+    border-radius: 9999px;
+    /* rounded-full */
+    font-weight: 600;
+    /* font-semibold */
+    text-transform: uppercase;
+    letter-spacing: 0.025em;
+    /* tracking-wide */
+    transition: all 0.2s ease-in-out;
+    cursor: pointer;
+    font-size: 14px;
+    border: 1px solid transparent;
+    /* default border */
+}
+
+.fullWidth {
+    width: 100%;
+}
+
+.solid {
+    background-color: #000000;
+    color: #ffffff;
+}
+
+.solid:hover {
+    background-color: #1f2937;
+    /* gray-800 */
+}
+
+.outline {
+    background-color: #ffffff;
+    color: #000000;
+    border-color: rgba(0, 0, 0, 0.2);
+    /* border-black/20 */
+}
+
+.outline:hover {
+    border-color: #000000;
+    background-color: #000000;
+    color: #ffffff;
+}
+
+.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}

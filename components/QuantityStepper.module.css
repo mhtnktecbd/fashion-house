@@ -1,0 +1,62 @@
+.stepper {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+    width: fit-content;
+}
+
+.btn {
+    width: 36px;
+    height: 36px;
+    border: none;
+    background: white;
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: 500;
+    color: var(--text);
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn:hover:not(:disabled) {
+    background: var(--bg-light);
+}
+
+.btn:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+}
+
+.input {
+    width: 50px;
+    height: 36px;
+    border: none;
+    border-left: 1px solid var(--border);
+    border-right: 1px solid var(--border);
+    text-align: center;
+    font-size: 14px;
+    font-weight: 500;
+    background: white;
+}
+
+.input:focus {
+    outline: none;
+}
+
+/* Remove number input arrows */
+.input::-webkit-outer-spin-button,
+.input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    appearance: none;
+    margin: 0;
+}
+
+.input[type=number] {
+    -moz-appearance: textfield;
+    appearance: textfield;
+}
