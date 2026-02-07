@@ -85,6 +85,13 @@ export default function ShippingPage() {
                     style={{ paddingLeft: Icon ? '36px' : '12px', width: '100%', background: disabled ? '#f3f4f6' : 'white', opacity: disabled ? 0.7 : 1 }}
                 />
             </div>
+
+            <style jsx global>{`
+              @keyframes fadeIn {
+                from { opacity: 0; transform: translateY(5px); }
+                to { opacity: 1; transform: translateY(0); }
+              }
+            `}</style>
         </div>
     );
 
@@ -241,16 +248,14 @@ export default function ShippingPage() {
                 </div>
 
             </div>
+            <style jsx global>{`
+              @keyframes fadeIn {
+                from { opacity: 0; transform: translateY(5px); }
+                to { opacity: 1; transform: translateY(0); }
+              }
+            `}</style>
         </div>
     );
 }
 
-// Add CSS keyframes for fade in
-const style = document.createElement('style');
-style.innerHTML = `
-  @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(5px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-`;
-if (typeof document !== 'undefined') document.head.appendChild(style);
+
