@@ -27,6 +27,11 @@ export default function Navbar() {
 
     // Scroll State
     const [scrolled, setScrolled] = useState(false);
+    const [mounted, setMounted] = useState(false);
+
+    useEffect(() => {
+        setMounted(true);
+    }, []);
 
     // Search State
     const [searchQuery, setSearchQuery] = useState('');
@@ -299,7 +304,7 @@ export default function Navbar() {
                     <Link href="/wishlist" className={styles.iconItem}>
                         <div className={styles.iconWrapper}>
                             <Heart size={22} />
-                            {wishlistCount > 0 && <span className={styles.badge}>{wishlistCount}</span>}
+                            {mounted && wishlistCount > 0 && <span className={styles.badge}>{wishlistCount}</span>}
                         </div>
                     </Link>
 
@@ -311,9 +316,9 @@ export default function Navbar() {
                     >
                         <div className={styles.iconWrapper}>
                             <ShoppingBag size={22} />
-                            {cartCount > 0 && <span className={styles.badge}>{cartCount}</span>}
+                            {mounted && cartCount > 0 && <span className={styles.badge}>{cartCount}</span>}
                         </div>
-                        <span className={styles.mobileHide}>৳{cartCount > 0 ? 'Total' : '0'}</span>
+                        <span className={styles.mobileHide}>৳{mounted && cartCount > 0 ? 'Total' : '0'}</span>
                     </button>
                 </div>
             </div>

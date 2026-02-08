@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect } from 'react';
-import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { useSession } from 'next-auth/react';
 import Link from 'next/link';
@@ -75,7 +74,6 @@ export default function MyOrdersPage() {
 
     if (loading) return (
         <>
-            <Navbar />
             <div className={styles.container} style={{ minHeight: '60vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                 <div style={{ textAlign: 'center' }}>
                     <div className="spinner" style={{ width: '40px', height: '40px', border: '4px solid #f3f3f3', borderTop: '4px solid #000', borderRadius: '50%', animation: 'spin 1s linear infinite', margin: '0 auto 20px' }}></div>
@@ -89,7 +87,6 @@ export default function MyOrdersPage() {
     if (!session && !guestPhone) {
         return (
             <>
-                <Navbar />
                 <div className={styles.container} style={{ minHeight: '60vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                     <div style={{ maxWidth: '400px', width: '100%', padding: '40px', background: 'white', borderRadius: '24px', boxShadow: '0 10px 30px rgba(0,0,0,0.05)', textAlign: 'center', border: '1px solid #e5e7eb' }}>
                         <div style={{ width: '60px', height: '60px', background: '#eff6ff', borderRadius: '20px', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 20px' }}>
@@ -122,7 +119,6 @@ export default function MyOrdersPage() {
 
     return (
         <>
-            <Navbar />
             <div className={styles.container} style={{ maxWidth: '800px', margin: '0 auto', padding: '120px 20px 60px' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '30px' }}>
                     <h1 style={{ fontSize: '28px', fontWeight: '800', color: '#111827', margin: 0 }}>My Orders</h1>

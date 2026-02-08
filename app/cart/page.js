@@ -1,6 +1,5 @@
 "use client";
 
-import Navbar from '@/components/Navbar';
 import Button from '@/components/Button';
 import { useCart } from '@/context/CartContext';
 import Link from 'next/link';
@@ -12,7 +11,6 @@ export default function CartPage() {
     if (cart.length === 0) {
         return (
             <>
-                <Navbar />
                 <div className="container" style={{ textAlign: 'center', padding: '100px 0' }}>
                     <div style={{ fontSize: '64px', marginBottom: '24px' }}>🛒</div>
                     <h2 style={{ fontSize: '24px', fontWeight: '700', marginBottom: '16px' }}>{en.cart.empty}</h2>
@@ -27,7 +25,6 @@ export default function CartPage() {
 
     return (
         <>
-            <Navbar />
             <main className="container" style={{ padding: '40px 20px' }}>
                 <h1 className="section-title" style={{ textAlign: 'left', marginBottom: '40px' }}>{en.cart.title}</h1>
 

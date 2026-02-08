@@ -1,50 +1,74 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 
-export const dynamic = 'force-dynamic';
-
-export async function GET(req) {
+export async function GET(request) {
     try {
-        const { searchParams } = new URL(req.url);
-        const category = searchParams.get('category');
-        const limit = searchParams.get('limit');
-        const featured = searchParams.get('featured');
+        const { searchParams } = new URL(request.url);
+        const category = searchParams.get('category'); // Main category (Men, Women)
+        const subCategory = searchParams.get('subCategory'); // T-Shirt, etc.
+        const q = searchParams.get('q');
+        const sort = searchParams.get('sort') || 'newest';
+        const page = parseInt(searchParams.get('page')) || 1;
+        const limit = 12;
+        const skip = (page - 1) * limit;
 
         const where = {};
-        if (category) {
-            where.category = category;
+
+        // Category Filter
+        if (category && category !== 'all') {
+            where.category = { equals: category }; // Case sensitive usually, but depends on DB collation
         }
-        // Example: if featured is requested (though schema might not have 'featured' flag directly, maybe 'isBestSeller'?)
-        // if (featured === 'true') where.isBestSeller = true;
 
-        const products = await prisma.product.findMany({
-            where,
-            take: limit ? parseInt(limit) : undefined,
-            include: { variants: true },
-            orderBy: { createdAt: 'desc' }
-        });
+        // Subcategory Filter
+        if (subCategory) {
+            where.subCategory = { equals: subCategory };
+        }
 
-        // Ensure images and sizes are parsed if they are strings (Prisma returns them as strings if mapped so, but schema says String. JSON.parse needed if client expects objects)
-        // Actually, client likely expects them as arrays/objects.
-        // Prisma `String` fields are returned as strings.
-        // We should parse them for the frontend if the frontend expects arrays.
+        // Search Filter
+        if (q) {
+            where.OR = [
+                { title: { contains: q } }, // Default SQLite is case-insensitive usually
+                { description: { contains: q } }
+            ];
+        }
 
-        const parsedProducts = products.map(p => ({
-            ...p,
-            images: typeof p.images === 'string' ? JSON.parse(p.images) : p.images,
-            sizes: typeof p.sizes === 'string' ? JSON.parse(p.sizes) : p.sizes,
-            // variants are already objects
-        }));
+        // Sorting
+        let orderBy = {};
+        switch (sort) {
+            case 'price_asc':
+                orderBy = { price: 'asc' };
+                break;
+            case 'price_desc':
+                orderBy = { price: 'desc' };
+                break;
+            case 'newest':
+            default:
+                orderBy = { createdAt: 'desc' };
+                break;
+        }
+
+        const [products, total] = await prisma.$transaction([
+            prisma.product.findMany({
+                where,
+                orderBy,
+                skip,
+                take: limit,
+            }),
+            prisma.product.count({ where })
+        ]);
 
         return NextResponse.json({
             success: true,
-            products: parsedProducts
+            products,
+            pagination: {
+                total,
+                page,
+                pages: Math.ceil(total / limit)
+            }
         });
+
     } catch (error) {
-        console.error("Products API Error:", error);
-        return NextResponse.json(
-            { success: false, error: 'Failed to fetch products' },
-            { status: 500 }
-        );
+        console.error("Error fetching products:", error);
+        return NextResponse.json({ success: false, error: "Failed to fetch products" }, { status: 500 });
     }
 }

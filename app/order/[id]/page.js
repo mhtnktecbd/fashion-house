@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect } from 'react';
-import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
@@ -35,7 +34,6 @@ export default function OrderDetailsPage() {
 
     if (loading) return (
         <>
-            <Navbar />
             <div className={styles.container} style={{ minHeight: '60vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                 <div style={{ textAlign: 'center' }}>
                     <div className="spinner" style={{ width: '40px', height: '40px', border: '4px solid #f3f3f3', borderTop: '4px solid #000', borderRadius: '50%', animation: 'spin 1s linear infinite', margin: '0 auto 20px' }}></div>
@@ -49,7 +47,6 @@ export default function OrderDetailsPage() {
 
     if (!order) return (
         <>
-            <Navbar />
             <div className={styles.container} style={{ minHeight: '60vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                 <div style={{ textAlign: 'center' }}>
                     <h2 style={{ fontSize: '24px', marginBottom: '10px' }}>Order not found</h2>
@@ -96,7 +93,6 @@ export default function OrderDetailsPage() {
 
     return (
         <>
-            <Navbar />
             <div className={styles.container} style={{ maxWidth: '1000px', margin: '0 auto', padding: '120px 20px 60px' }}>
                 <div style={{ marginBottom: '30px' }}>
                     <Link href="/my-orders" style={{ fontSize: '14px', color: '#6b7280', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: '5px' }}>

@@ -1,8 +1,8 @@
 "use client";
 
+
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
-import Navbar from '@/components/Navbar';
 import Button from '@/components/Button';
 import { Suspense } from 'react';
 
@@ -65,7 +65,6 @@ function SuccessContent() {
 export default function OrderSuccessPage() {
     return (
         <>
-            <Navbar />
             <Suspense fallback={<div className="container">Loading...</div>}>
                 <SuccessContent />
             </Suspense>

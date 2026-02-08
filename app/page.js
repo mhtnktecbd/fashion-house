@@ -1,6 +1,6 @@
 // "use client"; // Not strictly needed if children are client, but likely kept for Hero/etc context
 
-import Navbar from '@/components/Navbar';
+
 import HeroCarousel from '@/components/HeroCarousel';
 import CategorySelection from '@/components/CategorySelection';
 import HomeSectionsClient from '@/components/HomeSectionsClient';
@@ -15,7 +15,6 @@ export default async function Home() {
 
   return (
     <>
-      <Navbar />
       <HeroCarousel />
 
       <main>

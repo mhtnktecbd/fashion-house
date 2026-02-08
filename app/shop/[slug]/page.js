@@ -1,7 +1,6 @@
 "use client";
 
 import { useParams } from 'next/navigation';
-import Navbar from '@/components/Navbar';
 import CategoryCatalog from '@/components/CategoryCatalog';
 import { useCategories } from '@/context/CategoryContext';
 
@@ -15,7 +14,6 @@ export default function DynamicCategoryPage() {
 
     return (
         <>
-            <Navbar />
             <main style={{ minHeight: '80vh' }}>
                 <CategoryCatalog category={slug} />
             </main>

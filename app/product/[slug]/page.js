@@ -5,7 +5,6 @@ import { useCart } from '@/context/CartContext';
 import { useProducts } from '@/context/ProductContext';
 import Button from '@/components/Button';
 import ActionButton from '@/components/ActionButton';
-import Navbar from '@/components/Navbar';
 import QuantityStepper from '@/components/QuantityStepper';
 import ReturnInfoBox from '@/components/ReturnInfoBox';
 import SizeChart from '@/components/SizeChart';
@@ -199,15 +198,14 @@ export default function ProductPage({ params }) {
     };
 
     if (!features || !isLoaded) {
-        return <><Navbar /><div className="container" style={{ padding: '100px 0', textAlign: 'center' }}>Loading...</div></>;
+        return <><div className="container" style={{ padding: '100px 0', textAlign: 'center' }}>Loading...</div></>;
     }
     if (!product) {
-        return <><Navbar /><div className="container" style={{ padding: '100px 0', textAlign: 'center' }}><h1>Product Not Found</h1></div></>;
+        return <><div className="container" style={{ padding: '100px 0', textAlign: 'center' }}><h1>Product Not Found</h1></div></>;
     }
 
     return (
         <>
-            <Navbar />
             <div className="container">
                 <div className={styles.grid}>
                     {/* Gallery */}

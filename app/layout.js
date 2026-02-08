@@ -10,6 +10,8 @@ export const metadata = {
   description: "Premium Fashion E-commerce",
 };
 
+import Navbar from "@/components/Navbar";
+
 export default async function RootLayout({ children }) {
   const features = await getFeatures();
 
@@ -17,6 +19,7 @@ export default async function RootLayout({ children }) {
     <html lang="en">
       <body className={`${inter.className} bg-background text-foreground antialiased`}>
         <FeatureProvider features={features}>
+          <Navbar />
           <main className="site-main">
             {children}
           </main>

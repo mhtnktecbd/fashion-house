@@ -71,6 +71,7 @@ model Product {
   price       Float
   description String?
   category    String // Men, Women, Kids
+  subCategory String? // T-Shirts, Pants, etc.
   images      String // JSON string of image URLs
   stock       Int         @default(0)
   isNew       Boolean     @default(false)

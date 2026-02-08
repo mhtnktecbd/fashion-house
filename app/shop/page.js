@@ -1,13 +1,11 @@
-import Navbar from '@/components/Navbar';
-import CategoryCatalog from '@/components/CategoryCatalog';
+
+export const metadata = {
+    title: 'Shop - AuthenticBazar',
+    description: 'Browse our latest collection',
+};
+
+import ShopClient from './ShopClient';
 
 export default function ShopPage() {
-    return (
-        <>
-            <Navbar />
-            <main style={{ minHeight: '80vh' }}>
-                <CategoryCatalog />
-            </main>
-        </>
-    );
+    return <ShopClient />;
 }

@@ -6,16 +6,19 @@ import { useUI } from '@/context/UIContext'; // NEW
 const CartContext = createContext();
 
 export function CartProvider({ children }) {
-    const [cart, setCart] = useState(() => {
-        if (typeof window === 'undefined') return [];
+    const [cart, setCart] = useState([]);
+
+    // Load from LocalStorage on mount (Client only)
+    useEffect(() => {
         try {
             const stored = localStorage.getItem('ab_cart');
-            return stored ? JSON.parse(stored) : [];
+            if (stored) {
+                setCart(JSON.parse(stored));
+            }
         } catch (e) {
             console.error("Failed to parse cart", e);
-            return [];
         }
-    });
+    }, []);
 
     const [toast, setToast] = useState(null); // { message, type }
     const { openCart } = useUI(); // NEW
