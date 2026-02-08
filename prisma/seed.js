@@ -6,7 +6,7 @@ async function main() {
 
     try {
         // 1. Shipping Rules (Upsert)
-        console.log('🚚 Seeding Shipping Rules...');
+        console.log('✔ Seeding Shipping Rules...');
         await prisma.shippingRule.upsert({
             where: { name: 'default' },
             update: {}, // No update if exists, to preserve user changes
@@ -26,7 +26,7 @@ async function main() {
         });
 
         // 2. Categories (Upsert)
-        console.log('📂 Seeding Categories...');
+        console.log('✔ Seeding Categories...');
         const categories = [
             { name: 'Men', slug: 'men', showInNavbar: true, showInHome: true, sub: ['T-Shirts', 'Jeans', 'Shirts', 'Shoes'] },
             { name: 'Women', slug: 'women', showInNavbar: true, showInHome: true, sub: ['Dresses', 'Tops', 'Bags', 'Shoes'] },
@@ -67,7 +67,7 @@ async function main() {
         }
 
         // 3. Products (Upsert by slug)
-        console.log('👕 Seeding Products...');
+        console.log('✔ Seeding Products...');
         const productsData = [
             {
                 title: 'Men’s Classic T-Shirt',
@@ -158,7 +158,7 @@ async function main() {
             }
         }
 
-        console.log('✅ Seeding completed safely!');
+        console.log('✔ Seeding completed!');
 
     } catch (e) {
         console.error('❌ Seeding failed:', e);

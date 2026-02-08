@@ -6,40 +6,24 @@ import { useUI } from '@/context/UIContext'; // NEW
 const CartContext = createContext();
 
 export function CartProvider({ children }) {
-    const [cart, setCart] = useState([]);
-    const [isLoaded, setIsLoaded] = useState(false);
+    const [cart, setCart] = useState(() => {
+        if (typeof window === 'undefined') return [];
+        try {
+            const stored = localStorage.getItem('ab_cart');
+            return stored ? JSON.parse(stored) : [];
+        } catch (e) {
+            console.error("Failed to parse cart", e);
+            return [];
+        }
+    });
+
     const [toast, setToast] = useState(null); // { message, type }
     const { openCart } = useUI(); // NEW
 
-    // Load from LocalStorage
-    useEffect(() => {
-        const storedCart = localStorage.getItem('ab_cart');
-        if (storedCart) {
-            try {
-                setCart(JSON.parse(storedCart));
-            } catch (e) {
-                console.error("Failed to parse cart", e);
-            }
-        }
-        setIsLoaded(true);
-    }, []);
-
     // Save to LocalStorage
     useEffect(() => {
-        if (isLoaded) {
-            localStorage.setItem('ab_cart', JSON.stringify(cart));
-        }
-    }, [cart, isLoaded]);
-
-    // State to handle deferred cart opening (Fix for "Cannot update UIProvider while rendering CartProvider")
-    const [shouldOpenCart, setShouldOpenCart] = useState(false);
-
-    useEffect(() => {
-        if (shouldOpenCart) {
-            openCart();
-            setShouldOpenCart(false);
-        }
-    }, [shouldOpenCart, openCart]);
+        localStorage.setItem('ab_cart', JSON.stringify(cart));
+    }, [cart]);
 
     const addToCart = (product, openDrawer = true) => {
         // Variant Key Logic: ID:Size:Color
@@ -92,7 +76,7 @@ export function CartProvider({ children }) {
                     return prev;
                 }
 
-                if (openDrawer) setShouldOpenCart(true); // Trigger effect to open drawer
+                if (openDrawer) openCart();
                 return prev.map(item =>
                     item.id === variantKey
                         ? { ...item, quantity: newTotal }
@@ -107,7 +91,7 @@ export function CartProvider({ children }) {
             }
 
             // Add new item
-            if (openDrawer) setShouldOpenCart(true); // Trigger effect to open drawer
+            if (openDrawer) openCart();
             return [...prev, {
                 ...product,
                 id: variantKey,        // Main ID is now the variant key

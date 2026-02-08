@@ -26,7 +26,7 @@ export default function ReviewsCarousel() {
         fetchReviews();
     }, []);
 
-    if (loading || reviews.length === 0) return null;
+
 
     const nextSlide = () => {
         setCurrentIndex((prev) => (prev + 1) % reviews.length);
@@ -41,6 +41,8 @@ export default function ReviewsCarousel() {
         const timer = setInterval(nextSlide, 5000);
         return () => clearInterval(timer);
     }, [reviews.length]);
+
+    if (loading || reviews.length === 0) return null;
 
     return (
         <section className={styles.section}>
@@ -76,7 +78,7 @@ export default function ReviewsCarousel() {
                                             />
                                         ))}
                                     </div>
-                                    <p className={styles.comment}>"{review.comment}"</p>
+                                    <p className={styles.comment}>&quot;{review.comment}&quot;</p>
                                     <div className={styles.author}>
                                         <div className={styles.avatar}>
                                             {review.name.charAt(0).toUpperCase()}

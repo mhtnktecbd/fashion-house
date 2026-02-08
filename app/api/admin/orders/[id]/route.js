@@ -40,7 +40,7 @@ export async function PATCH(req, { params }) {
         const body = await req.json();
         const { status } = body;
 
-        console.log(`Updating order ${id} to status: ${status}`);
+        // console.log(`Updating order ${id} to status: ${status}`);
 
         if (!id) {
             return NextResponse.json({ error: 'Order ID is required' }, { status: 400 });
@@ -73,7 +73,7 @@ export async function PATCH(req, { params }) {
         await saveOrderMeta(id, { timeline });
         // ----------------------------------------------
 
-        console.log('Order updated successfully:', updatedOrder.id);
+        // console.log('Order updated successfully:', updatedOrder.id);
 
         return NextResponse.json({
             success: true,

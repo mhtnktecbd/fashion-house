@@ -8,29 +8,16 @@ import Link from 'next/link';
 import { X, Check } from 'lucide-react';
 import styles from './QuickViewModal.module.css';
 
-export default function QuickViewModal() {
-    const { quickViewProduct, closeQuickView, openCart } = useUI();
+// Sub-component that holds the form state
+function QuickViewContent({ product }) {
+    const { closeQuickView, openCart } = useUI();
     const { addToCart } = useCart();
 
-    // Form State
+    // Form State (No need for reset effect because we rely on key remount)
     const [selectedSize, setSelectedSize] = useState(null);
     const [selectedColor, setSelectedColor] = useState(null);
     const [quantity, setQuantity] = useState(1);
     const [error, setError] = useState('');
-
-    // Reset when product changes
-    useEffect(() => {
-        if (quickViewProduct) {
-            setSelectedSize(null);
-            setSelectedColor(null);
-            setQuantity(1);
-            setError('');
-        }
-    }, [quickViewProduct]);
-
-    if (!quickViewProduct) return null;
-
-    const product = quickViewProduct;
 
     // --- Parsing Logic (Mirrors ProductPage) ---
 
@@ -99,9 +86,6 @@ export default function QuickViewModal() {
     };
 
     const maxQuantity = getCurrentStock(selectedSize, selectedColor);
-
-    // Initial Quantity Reset logic could go here if we want to auto-cap quantity
-    // But for QuickView maybe just validate on add.
 
     // Is Variant OOS for UI
     const isVariantRefOutStrict = (s, c) => {
@@ -271,4 +255,12 @@ export default function QuickViewModal() {
             </div>
         </div>
     );
+}
+
+export default function QuickViewModal() {
+    const { quickViewProduct } = useUI();
+
+    if (!quickViewProduct) return null;
+
+    return <QuickViewContent product={quickViewProduct} key={quickViewProduct.id} />;
 }

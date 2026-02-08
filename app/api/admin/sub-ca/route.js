@@ -3,7 +3,7 @@ import { prisma } from '@/lib/prisma';
 
 export async function GET() {
     try {
-        console.log("API /api/admin/sub-ca: Fetching categories...");
+        // console.log("API /api/admin/sub-ca: Fetching categories...");
 
         // Ensure default categories exist
         const defaultCategories = ['Men', 'Women', 'Teens', 'Kids', 'Sports'];
@@ -18,7 +18,7 @@ export async function GET() {
             });
 
             if (!exists) {
-                console.log(`API: Creating missing category: ${name}`);
+                // console.log(`API: Creating missing category: ${name}`);
                 await prisma.category.create({
                     data: {
                         name,
@@ -48,7 +48,7 @@ export async function GET() {
             }
         });
 
-        console.log(`API: Successfully fetched ${categories.length} main categories.`);
+        // console.log(`API: Successfully fetched ${categories.length} main categories.`);
         return NextResponse.json({ categories });
     } catch (error) {
         console.error('API Error /api/admin/sub-ca:', error);

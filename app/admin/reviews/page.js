@@ -9,6 +9,12 @@ export default function AdminReviewsPage() {
     const [filter, setFilter] = useState('ALL'); // ALL, PENDING, APPROVED
 
     useEffect(() => {
+        const fetchReviews = async () => {
+            const res = await fetch('/api/admin/reviews');
+            const data = await res.json();
+            setReviews(data);
+            setLoading(false);
+        };
         fetchReviews();
     }, []);
 
@@ -97,8 +103,8 @@ export default function AdminReviewsPage() {
                                     </td>
                                     <td className="p-4">
                                         <span className={`px-2 py-1 rounded-full text-xs font-bold ${r.status === 'APPROVED' ? 'bg-green-100 text-green-700' :
-                                                r.status === 'REJECTED' ? 'bg-red-100 text-red-700' :
-                                                    'bg-yellow-100 text-yellow-800'
+                                            r.status === 'REJECTED' ? 'bg-red-100 text-red-700' :
+                                                'bg-yellow-100 text-yellow-800'
                                             }`}>
                                             {r.status}
                                         </span>

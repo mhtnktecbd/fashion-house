@@ -15,7 +15,13 @@ export default function HeroCarousel() {
     const [isLoaded, setIsLoaded] = useState(false);
     const [currentIndex, setCurrentIndex] = useState(0);
     const [isHovered, setIsHovered] = useState(false);
-    const [isReducedMotion, setIsReducedMotion] = useState(false);
+
+    // Lazy init for reduced motion
+    const [isReducedMotion, setIsReducedMotion] = useState(() => {
+        if (typeof window === 'undefined') return false;
+        return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    });
+
     const [trustEnabled, setTrustEnabled] = useState(true);
 
     // Timer refs
@@ -47,9 +53,6 @@ export default function HeroCarousel() {
             setConfig(getHeroConfig());
             setIsLoaded(true);
         });
-
-        const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
-        setIsReducedMotion(mediaQuery.matches);
     }, []);
 
     const nextSlide = useCallback(() => {

@@ -146,7 +146,7 @@ export default function MyOrdersPage() {
                             <ShoppingBag size={32} color="#9ca3af" />
                         </div>
                         <h3 style={{ fontSize: '18px', fontWeight: '700', marginBottom: '8px' }}>No orders found</h3>
-                        <p style={{ color: '#6b7280', marginBottom: '25px' }}>Looks like you haven't placed any orders yet.</p>
+                        <p style={{ color: '#6b7280', marginBottom: '25px' }}>Looks like you haven&apos;t placed any orders yet.</p>
                         <Link href="/shop" style={{ display: 'inline-flex', padding: '12px 24px', background: '#111827', color: 'white', borderRadius: '12px', fontWeight: '600', textDecoration: 'none' }}>
                             Start Shopping
                         </Link>

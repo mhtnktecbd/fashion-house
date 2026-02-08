@@ -47,7 +47,7 @@ export default function AdminOrdersPage() {
         }
 
         try {
-            console.log(`Updating order ${orderId} to ${newStatus}...`);
+            // console.log(`Updating order ${orderId} to ${newStatus}...`);
             const res = await fetch(`/api/admin/orders/${orderId}`, {
                 method: 'PATCH',
                 headers: { 'Content-Type': 'application/json' },
@@ -57,7 +57,7 @@ export default function AdminOrdersPage() {
             const data = await res.json();
 
             if (res.ok && data.success) {
-                console.log("Update success:", data);
+                // console.log("Update success:", data);
                 fetchOrders(); // Refresh
             } else {
                 console.error("Update failed:", data);

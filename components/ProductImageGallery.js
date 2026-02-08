@@ -6,28 +6,21 @@ import { ChevronLeft, ChevronRight, ZoomIn } from 'lucide-react';
 import styles from './ProductImageGallery.module.css';
 
 export default function ProductImageGallery({ product }) {
-    // Normalize images
-    const [images, setImages] = useState([]);
+    // Normalize images (Derived State)
+    const images = (product.images && Array.isArray(product.images) && product.images.length > 0)
+        ? product.images
+        : (product.image ? [product.image] : ['/placeholder.svg']);
+
     const [activeIndex, setActiveIndex] = useState(0);
     const [isZoomed, setIsZoomed] = useState(false);
     const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
 
-    useEffect(() => {
-        let imgs = [];
-        if (product.images && Array.isArray(product.images) && product.images.length > 0) {
-            imgs = product.images;
-        } else if (product.image) {
-            imgs = [product.image];
-        }
-        // Ensure main image is first if it exists and not in list? 
-        // Usually demoStore logic differs, but let's assume images array is complete source if present.
-        // If specific logic needed: if product.image not in images, unshift it. 
-
-        if (imgs.length === 0) imgs = ['/placeholder.svg'];
-
-        setImages(imgs);
+    // Reset index when product changes (Render-time check)
+    const [prevId, setPrevId] = useState(product.id);
+    if (product.id !== prevId) {
+        setPrevId(product.id);
         setActiveIndex(0);
-    }, [product]);
+    }
 
     const handleMouseMove = (e) => {
         if (!isZoomed) return;

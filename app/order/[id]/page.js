@@ -106,7 +106,7 @@ export default function OrderDetailsPage() {
 
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '20px', marginBottom: '40px' }}>
                     <div>
-                        <h1 style={{ fontSize: '28px', fontWeight: '800', color: '#111827', margin: '0 0 5px 0' }}>It's coming!</h1>
+                        <h1 style={{ fontSize: '28px', fontWeight: '800', color: '#111827', margin: '0 0 5px 0' }}>It&apos;s coming!</h1>
                         <p style={{ color: '#6b7280', margin: 0 }}>Order #{order.orderNumber || order.id.slice(0, 8).toUpperCase()}</p>
                     </div>
                     <div>

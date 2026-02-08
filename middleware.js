@@ -7,7 +7,7 @@ export default withAuth(
         const path = req.nextUrl.pathname;
         const isAuth = !!token;
 
-        console.log(`[MIDDLEWARE] Accessing: ${path}, Authenticated: ${isAuth}, Role: ${token?.role || 'NONE'}`);
+        // console.log(`[MIDDLEWARE] Accessing: ${path}, Authenticated: ${isAuth}, Role: ${token?.role || 'NONE'}`);
 
         // TODO: Re-enable admin protection before production.
         // Temporarily bypassing admin routes for development.
@@ -42,7 +42,7 @@ export default withAuth(
         if (path.startsWith("/auth/signin")) {
             if (isAuth) {
                 const target = token.role === "ADMIN" ? "/admin" : "/";
-                console.log(`[MIDDLEWARE] Already authenticated as ${token.role}, redirecting to ${target}`);
+                // console.log(`[MIDDLEWARE] Already authenticated as ${token.role}, redirecting to ${target}`);
                 return NextResponse.redirect(new URL(target, req.url));
             }
         }

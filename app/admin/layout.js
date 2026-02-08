@@ -56,7 +56,7 @@ export default function AdminLayout({ children }) {
     ];
 
     return (
-        <div className={styles.wrapper}>
+        <div className={`${styles.wrapper} min-h-screen bg-background text-foreground`}>
             {/* Sidebar */}
             <aside className={styles.sidebar}>
                 <div className={styles.logo}>

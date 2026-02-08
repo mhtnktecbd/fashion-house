@@ -7,6 +7,7 @@ import { useProducts } from '@/context/ProductContext';
 import styles from './CategoryCatalog.module.css';
 import en from '@/lib/i18n/en';
 
+// CategoryCatalogContent now relies on fresh mounting for new query params
 function CategoryCatalogContent({ category }) {
     const { products, isLoaded } = useProducts();
     const searchParams = useSearchParams();
@@ -14,15 +15,8 @@ function CategoryCatalogContent({ category }) {
 
     const [sortBy, setSortBy] = useState('newest');
     const [maxPrice, setMaxPrice] = useState(10000);
-    // Initialize with URL query to avoid effect update on mount
+    // Initialized solely from prop/URL on mount
     const [searchQuery, setSearchQuery] = useState(urlQuery || '');
-
-    // Sync URL query to state if it changes afterwards
-    useEffect(() => {
-        if (urlQuery !== null && urlQuery !== searchQuery) {
-            setSearchQuery(urlQuery);
-        }
-    }, [urlQuery, searchQuery]);
 
     const filteredProducts = useMemo(() => {
         if (!isLoaded) return [];
@@ -134,9 +128,12 @@ function CategoryCatalogContent({ category }) {
 }
 
 export default function CategoryCatalog(props) {
+    const searchParams = useSearchParams();
+    const q = searchParams.get('q');
+
     return (
         <Suspense fallback={<div className="container" style={{ padding: '100px 20px', textAlign: 'center' }}>Loading...</div>}>
-            <CategoryCatalogContent {...props} />
+            <CategoryCatalogContent {...props} key={q} />
         </Suspense>
     );
 }

@@ -5,28 +5,21 @@ import { createContext, useContext, useEffect, useState } from 'react';
 const WishlistContext = createContext();
 
 export function WishlistProvider({ children }) {
-    const [wishlist, setWishlist] = useState([]);
-    const [isLoaded, setIsLoaded] = useState(false);
-
-    // Load from LocalStorage
-    useEffect(() => {
-        const storedWishlist = localStorage.getItem('ab_wishlist');
-        if (storedWishlist) {
-            try {
-                setWishlist(JSON.parse(storedWishlist));
-            } catch (e) {
-                console.error("Failed to parse wishlist", e);
-            }
+    const [wishlist, setWishlist] = useState(() => {
+        if (typeof window === 'undefined') return [];
+        try {
+            const stored = localStorage.getItem('ab_wishlist');
+            return stored ? JSON.parse(stored) : [];
+        } catch (e) {
+            console.error("Failed to parse wishlist", e);
+            return [];
         }
-        setIsLoaded(true);
-    }, []);
+    });
 
     // Save to LocalStorage
     useEffect(() => {
-        if (isLoaded) {
-            localStorage.setItem('ab_wishlist', JSON.stringify(wishlist));
-        }
-    }, [wishlist, isLoaded]);
+        localStorage.setItem('ab_wishlist', JSON.stringify(wishlist));
+    }, [wishlist]);
 
     const addToWishlist = (product) => {
         setWishlist(prev => {

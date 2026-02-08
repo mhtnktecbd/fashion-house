@@ -198,7 +198,7 @@ export async function POST(req) {
             return newOrder;
         });
 
-        console.log("Order created successfully:", order.id, order.orderNumber);
+        // console.log("Order created successfully:", order.id, order.orderNumber);
 
         return NextResponse.json(
             { success: true, orderId: order.id, orderNumber: order.orderNumber },

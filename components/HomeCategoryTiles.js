@@ -15,22 +15,21 @@ export default function HomeCategoryTiles({
     enabled = true
 }) {
     // Legacy support: if no items passed, use store
-    const [legacyTiles, setLegacyTiles] = useState([]);
-    const [legacyConfig, setLegacyConfig] = useState({ sectionEnabled: true });
-
-    // Determine source of truth
     const isLegacy = !items;
+
+    // Lazy init for store data to avoid effect update
+    const [legacyTiles] = useState(() => isLegacy ? getHomeTiles() : []);
+    const [legacyConfig] = useState(() => isLegacy ? getHomeTilesConfig() : { sectionEnabled: true });
 
     const [isLoaded, setIsLoaded] = useState(false);
     const observerRef = useRef(null);
 
     useEffect(() => {
-        if (isLegacy) {
-            setLegacyTiles(getHomeTiles());
-            setLegacyConfig(getHomeTilesConfig());
-        }
-        setIsLoaded(true);
-    }, [isLegacy]);
+        const timer = setTimeout(() => {
+            setIsLoaded(true);
+        }, 0);
+        return () => clearTimeout(timer);
+    }, []);
 
     useEffect(() => {
         if (!isLoaded) return;

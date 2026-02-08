@@ -6,125 +6,73 @@ import Button from '@/components/Button';
 import Input from '@/components/Input';
 
 export default function ProductForm({ product, onSave, onCancel }) {
-    const [formData, setFormData] = useState({
-        title: '',
-        category: 'Men',
-        price: '',
-        originalPrice: '',
-        description: '',
-        image: '',
-        status: 'Published',
-        // Size & Color Config
-        sizeRequired: true,
-        colorRequired: false,
-        sizes: {}, // { 'S': 0, 'M': 0 } -> Note: We'll use keys for tracking enabled sizes
-        colors: [], // ['Red', 'Blue']
-        variantStock: {}, // { "S:Red": 5, "M:Blue": 10 }
+    // Helper to init form
+    const initializeFormData = (p) => {
+        if (!p) return {
+            title: '', category: 'Men', price: '', originalPrice: '', description: '', image: '', status: 'Published',
+            sizeRequired: true, colorRequired: false, sizes: {}, colors: [], variantStock: {},
+            showOnHome: false, homeGroup: 'new', homePriority: 100,
+            returnInfo: { title: 'Easy Returns & Exchange', bullets: [{ icon: 'check', text: 'Tell us within 3 days' }, { icon: 'truck', text: 'Free return shipping*' }, { icon: 'check', text: 'Instant refund on receipt' }], note: '*Conditions apply' },
+            sizeChart: { enabled: false, defaultUnit: 'INCH', columns: ['Chest (round)', 'Length', 'Sleeve'], rows: [{ size: 'M', 'Chest (round)': 39, 'Length': 27.5, 'Sleeve': 8.5 }, { size: 'L', 'Chest (round)': 40.5, 'Length': 28, 'Sleeve': 8.75 }, { size: 'XL', 'Chest (round)': 43, 'Length': 29, 'Sleeve': 9 }] },
+            categorySlug: '', subcategorySlug: ''
+        };
 
-        // New Homepage Fields
-        showOnHome: false,
-        homeGroup: 'new',
-        homePriority: 100,
-        returnInfo: {
-            title: 'Easy Returns & Exchange',
-            bullets: [
-                { icon: 'check', text: 'Tell us within 3 days' },
-                { icon: 'truck', text: 'Free return shipping*' },
-                { icon: 'check', text: 'Instant refund on receipt' }
-            ],
-            note: '*Conditions apply'
-        },
-        sizeChart: {
-            enabled: false,
-            defaultUnit: 'INCH',
-            columns: ['Chest (round)', 'Length', 'Sleeve'],
-            rows: [
-                { size: 'M', 'Chest (round)': 39, 'Length': 27.5, 'Sleeve': 8.5 },
-                { size: 'L', 'Chest (round)': 40.5, 'Length': 28, 'Sleeve': 8.75 },
-                { size: 'XL', 'Chest (round)': 43, 'Length': 29, 'Sleeve': 9 }
-            ]
-        },
-        // Dynamic Category
-        categorySlug: '',
-        subcategorySlug: ''
-    });
+        const sizeObj = {};
+        if (Array.isArray(p.sizes)) { p.sizes.forEach(s => { sizeObj[s] = 0; }); }
+        else if (p.sizes && typeof p.sizes === 'object') { Object.assign(sizeObj, p.sizes); }
 
-    useEffect(() => {
-        if (product) {
-            // Parse sizes
-            const sizeObj = {};
-            if (Array.isArray(product.sizes)) {
-                product.sizes.forEach(s => { sizeObj[s] = 0; });
-            } else if (product.sizes && typeof product.sizes === 'object') {
-                Object.assign(sizeObj, product.sizes);
-            }
+        let colors = [];
+        if (p.colors && Array.isArray(p.colors)) { colors = p.colors; }
+        else if (p.colors && typeof p.colors === 'string') { try { colors = JSON.parse(p.colors); } catch (e) { } }
 
-            // Parse Colors
-            let colors = [];
-            if (product.colors && Array.isArray(product.colors)) {
-                colors = product.colors;
-            } else if (product.colors && typeof product.colors === 'string') {
-                try { colors = JSON.parse(product.colors); } catch (e) { }
-            }
-
-            // Parse Variant Stock
-            let variantStock = {};
-            if (product.variantStock) {
-                if (typeof product.variantStock === 'string') {
-                    try { variantStock = JSON.parse(product.variantStock); } catch (e) { }
-                } else {
-                    variantStock = product.variantStock;
-                }
-            }
-
-            // Parse returnInfo
-            let returnInfo = formData.returnInfo;
-            if (product.returnInfo) {
-                if (typeof product.returnInfo === 'string') {
-                    returnInfo = JSON.parse(product.returnInfo);
-                } else {
-                    returnInfo = product.returnInfo;
-                }
-            }
-
-            // Parse sizeChart
-            let sizeChart = formData.sizeChart;
-            if (product.sizeChart) {
-                if (typeof product.sizeChart === 'string') {
-                    sizeChart = JSON.parse(product.sizeChart);
-                } else {
-                    sizeChart = product.sizeChart;
-                }
-            }
-
-            setFormData({
-                title: product.title || '',
-                category: product.category || 'Men',
-                price: product.price || '',
-                originalPrice: product.originalPrice || '',
-                description: product.description || '',
-                image: product.image || '',
-                status: product.status || 'Published',
-
-                sizeRequired: product.sizeRequired !== undefined ? product.sizeRequired : true,
-                colorRequired: product.colorRequired !== undefined ? product.colorRequired : false,
-                sizes: sizeObj,
-                colors: colors,
-                variantStock: variantStock,
-
-                returnInfo: returnInfo,
-                sizeChart: sizeChart,
-                // Load new fields
-                showOnHome: product.showOnHome || false,
-                homeGroup: product.homeGroup || 'new',
-                homePriority: product.homePriority || 100,
-
-                // Dynamic Category
-                categorySlug: product.categorySlug || (product.category ? product.category.toLowerCase() : ''),
-                subcategorySlug: product.subcategorySlug || ''
-            });
+        let variantStock = {};
+        if (p.variantStock) {
+            if (typeof p.variantStock === 'string') { try { variantStock = JSON.parse(p.variantStock); } catch (e) { } }
+            else { variantStock = p.variantStock; }
         }
-    }, [product]);
+
+        let returnInfo = { title: 'Easy Returns & Exchange', bullets: [{ icon: 'check', text: 'Tell us within 3 days' }, { icon: 'truck', text: 'Free return shipping*' }, { icon: 'check', text: 'Instant refund on receipt' }], note: '*Conditions apply' };
+        if (p.returnInfo) {
+            if (typeof p.returnInfo === 'string') { try { returnInfo = JSON.parse(p.returnInfo); } catch (e) { } }
+            else { returnInfo = p.returnInfo; }
+        }
+
+        let sizeChart = { enabled: false, defaultUnit: 'INCH', columns: ['Chest (round)', 'Length', 'Sleeve'], rows: [{ size: 'M', 'Chest (round)': 39, 'Length': 27.5, 'Sleeve': 8.5 }, { size: 'L', 'Chest (round)': 40.5, 'Length': 28, 'Sleeve': 8.75 }, { size: 'XL', 'Chest (round)': 43, 'Length': 29, 'Sleeve': 9 }] };
+        if (p.sizeChart) {
+            if (typeof p.sizeChart === 'string') { try { sizeChart = JSON.parse(p.sizeChart); } catch (e) { } }
+            else { sizeChart = p.sizeChart; }
+        }
+
+        return {
+            title: p.title || '',
+            category: p.category || 'Men',
+            price: p.price || '',
+            originalPrice: p.originalPrice || '',
+            description: p.description || '',
+            image: p.image || '',
+            status: p.status || 'Published',
+            sizeRequired: p.sizeRequired !== undefined ? p.sizeRequired : true,
+            colorRequired: p.colorRequired !== undefined ? p.colorRequired : false,
+            sizes: sizeObj,
+            colors: colors,
+            variantStock: variantStock,
+            returnInfo: returnInfo,
+            sizeChart: sizeChart,
+            showOnHome: p.showOnHome || false,
+            homeGroup: p.homeGroup || 'new',
+            homePriority: p.homePriority || 100,
+            categorySlug: p.categorySlug || (p.category ? p.category.toLowerCase() : ''),
+            subcategorySlug: p.subcategorySlug || ''
+        };
+    };
+
+    const [formData, setFormData] = useState(() => initializeFormData(product));
+    const [prevProduct, setPrevProduct] = useState(product);
+
+    if (product !== prevProduct) {
+        setPrevProduct(product);
+        setFormData(initializeFormData(product));
+    }
 
     // --- Dynamic Category Logic ---
     const [categories, setCategories] = useState([]);
