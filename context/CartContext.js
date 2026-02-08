@@ -25,6 +25,7 @@ export function CartProvider({ children }) {
         try {
             const stored = localStorage.getItem('ab_cart');
             if (stored) {
+                // eslint-disable-next-line react-hooks/exhaustive-deps, react-hooks/set-state-in-effect
                 setCart(JSON.parse(stored));
             }
         } catch (e) {

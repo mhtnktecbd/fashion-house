@@ -17,11 +17,13 @@ function CategoryCatalogContent({ category }) {
     const [maxPrice, setMaxPrice] = useState(10000);
     // Initialized solely from prop/URL on mount
     const [searchQuery, setSearchQuery] = useState(urlQuery || '');
+    const [prevUrlQuery, setPrevUrlQuery] = useState(urlQuery);
 
-    // Sync state with URL query changes
-    useEffect(() => {
+    // Derived state (Sync state with URL query changes during render)
+    if (urlQuery !== prevUrlQuery) {
+        setPrevUrlQuery(urlQuery);
         setSearchQuery(urlQuery || '');
-    }, [urlQuery]);
+    }
 
     const filteredProducts = useMemo(() => {
         if (!isLoaded) return [];

@@ -50,7 +50,7 @@ export function RevenueReports({ data }) {
                     </span>
                 </div>
             </div>
-            <div style={{ width: '100%', height: 300 }}>
+            <div className="w-full h-[300px] min-h-[300px]">
                 <ResponsiveContainer width="100%" height="100%">
                     <AreaChart data={data} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
                         <defs>
@@ -107,7 +107,7 @@ export function SalesByCategory({ data }) {
                 Sales by Category
                 <MoreVertical size={18} color="#9ca3af" cursor="pointer" />
             </div>
-            <div style={{ width: '100%', height: 220, position: 'relative' }}>
+            <div className="w-full h-[220px] min-h-[220px] relative">
                 <ResponsiveContainer width="100%" height="100%">
                     <PieChart>
                         <Pie
