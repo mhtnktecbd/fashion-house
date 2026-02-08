@@ -18,6 +18,11 @@ function CategoryCatalogContent({ category }) {
     // Initialized solely from prop/URL on mount
     const [searchQuery, setSearchQuery] = useState(urlQuery || '');
 
+    // Sync state with URL query changes
+    useEffect(() => {
+        setSearchQuery(urlQuery || '');
+    }, [urlQuery]);
+
     const filteredProducts = useMemo(() => {
         if (!isLoaded) return [];
         let items = category
@@ -128,12 +133,10 @@ function CategoryCatalogContent({ category }) {
 }
 
 export default function CategoryCatalog(props) {
-    const searchParams = useSearchParams();
-    const q = searchParams.get('q');
-
+    // Note: useSearchParams removed from here to allow Suspense boundary to work correctly
     return (
         <Suspense fallback={<div className="container" style={{ padding: '100px 20px', textAlign: 'center' }}>Loading...</div>}>
-            <CategoryCatalogContent {...props} key={q} />
+            <CategoryCatalogContent {...props} />
         </Suspense>
     );
 }

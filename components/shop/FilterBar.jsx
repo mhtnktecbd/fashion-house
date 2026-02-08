@@ -71,7 +71,7 @@ export default function FilterBar({
                             <div className="h-8 px-3 flex items-center bg-blue-50 text-blue-700 rounded-full text-xs font-medium border border-blue-100">
                                 {activeCategory}
                                 {!activeSubCategory && (
-                                    <button onClick onSelectCategory={() => onClearFilters('category')} className="ml-2 hover:text-blue-900"><X size={12} /></button>
+                                    <button onClick={() => onClearFilters('category')} className="ml-2 hover:text-blue-900"><X size={12} /></button>
                                 )}
                             </div>
                         )}
@@ -85,7 +85,7 @@ export default function FilterBar({
 
                         {searchQuery && (
                             <div className="h-8 px-3 flex items-center bg-gray-100 text-gray-700 rounded-full text-xs font-medium border border-gray-200">
-                                "{searchQuery}"
+                                &quot;{searchQuery}&quot;
                                 <button onClick={() => setSearchQuery('')} className="ml-2 hover:text-black"><X size={12} /></button>
                             </div>
                         )}
