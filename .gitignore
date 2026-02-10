@@ -42,9 +42,15 @@ next-env.d.ts
 # prisma
 /prisma/*.db
 /prisma/*.db-journal
-# build/lint logs
+
+# added by cleanup script
 *.log
-*lint_output*.txt
-*lint_results*.txt
+*.cache
+dist
+*.tmp
+lint_*.txt
 build_output.txt
+# env
+.env
+.env.*
 

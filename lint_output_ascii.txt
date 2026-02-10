@@ -1,0 +1,99 @@
+
+> authentic-bazar@0.1.0 lint
+> eslint
+
+
+C:\Users\MOJA\Documents\fation house\app\admin\categories\page.js
+   69:8    warning  React Hook useEffect has a missing dependency: 'fetchCategories'. Either include it or remove the dependency array                                                                                                                                                                       react-hooks/exhaustive-deps
+  284:33   warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+  337:120  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+  337:120  warning  img elements must have an alt prop, either with meaningful text, or an empty string for decorative images                                                                                                                                                                                jsx-a11y/alt-text
+  483:143  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+  483:143  warning  img elements must have an alt prop, either with meaningful text, or an empty string for decorative images                                                                                                                                                                                jsx-a11y/alt-text
+
+C:\Users\MOJA\Documents\fation house\app\admin\home-categories\page.js
+  65:46  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+  65:46  warning  img elements must have an alt prop, either with meaningful text, or an empty string for decorative images                                                                                                                                                                                jsx-a11y/alt-text
+
+C:\Users\MOJA\Documents\fation house\app\admin\home-sections\page.js
+  282:64  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+  282:64  warning  img elements must have an alt prop, either with meaningful text, or an empty string for decorative images                                                                                                                                                                                jsx-a11y/alt-text
+
+C:\Users\MOJA\Documents\fation house\app\admin\home-tiles\page.js
+  251:33  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+  343:45  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+C:\Users\MOJA\Documents\fation house\app\admin\layout.js
+  137:29  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+C:\Users\MOJA\Documents\fation house\app\admin\products\page.js
+  105:45  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+C:\Users\MOJA\Documents\fation house\app\admin\size-guide\page.js
+  143:33  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+C:\Users\MOJA\Documents\fation house\app\cart\page.js
+  106:20  error  Parsing error: Expected corresponding JSX closing tag for <Button>. (106:20)
+
+C:\Users\MOJA\Documents\fation house\app\my-orders\page.js
+  24:8  warning  React Hook useEffect has a missing dependency: 'fetchOrders'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+C:\Users\MOJA\Documents\fation house\app\order\[id]\page.js
+  135:45  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+C:\Users\MOJA\Documents\fation house\app\shop\ShopClient.jsx
+  39:8  warning  React Hook useEffect has missing dependencies: 'initialQuery' and 'updateFilters'. Either include them or remove the dependency array  react-hooks/exhaustive-deps
+  46:8  warning  React Hook useEffect has missing dependencies: 'initialSort' and 'updateFilters'. Either include them or remove the dependency array   react-hooks/exhaustive-deps
+
+C:\Users\MOJA\Documents\fation house\components\CheckoutClient.js
+  298:41  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+C:\Users\MOJA\Documents\fation house\components\Hero.js
+  64:37  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+C:\Users\MOJA\Documents\fation house\components\HeroSlider.js
+  151:37  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+C:\Users\MOJA\Documents\fation house\components\HomeCategoryTiles.js
+  59:8  warning  React Hook useEffect has a missing dependency: 'isLegacy'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+C:\Users\MOJA\Documents\fation house\components\HomeSectionsClient.js
+  54:12  warning  React Hook useEffect has a missing dependency: 'calculateTimeLeft'. Either include it or remove the dependency array                                                                                                                                                                     react-hooks/exhaustive-deps
+  91:37  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+C:\Users\MOJA\Documents\fation house\components\ProductImageGallery.js
+  51:17  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+  82:29  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+C:\Users\MOJA\Documents\fation house\components\ReviewList.js
+  28:8  warning  React Hook useEffect has a missing dependency: 'fetchReviews'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+C:\Users\MOJA\Documents\fation house\components\ReviewsCarousel.js
+  43:8  warning  React Hook useEffect has a missing dependency: 'nextSlide'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+C:\Users\MOJA\Documents\fation house\components\SizeGuideModal.js
+  47:37  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+C:\Users\MOJA\Documents\fation house\components\StickyAddToCart.js
+  28:17  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+C:\Users\MOJA\Documents\fation house\components\admin\HeroToggleForm.jsx
+  281:49  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+  337:25  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+C:\Users\MOJA\Documents\fation house\components\admin\ProductForm.js
+  691:29  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+C:\Users\MOJA\Documents\fation house\components\admin\SideBannerManager.jsx
+  223:45  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+  287:41  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+C:\Users\MOJA\Documents\fation house\context\CartContext.js
+  28:17  warning  Unused eslint-disable directive (no problems were reported from 'react-hooks/exhaustive-deps' or 'react-hooks/set-state-in-effect')
+
+C:\Users\MOJA\Documents\fation house\lib\i18n\en.js
+  1:1  warning  Assign object to a variable before exporting as module default  import/no-anonymous-default-export
+
+??? 39 problems (1 error, 38 warnings)
+  0 errors and 1 warning potentially fixable with the `--fix` option.
+
