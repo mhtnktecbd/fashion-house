@@ -54,3 +54,10 @@ build_output.txt
 .env
 .env.*
 
+
+# build/lint logs
+*.log
+*lint_output*.txt
+*lint_results*.txt
+build_output.txt
+
